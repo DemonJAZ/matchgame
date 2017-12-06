@@ -6,11 +6,7 @@ var stars = document.getElementsByClassName("fa fa-star");
 var starCount = stars.length-1;
 var movesCount = document.getElementById("moves");
 movesCount.innerHTML = 0;
-var newarray = shuffle(array);
-
-for (var i = 0; i < array.length; i++) {
-  array[i].replaceWith(newarray[i]);
-}
+array = shuffle(array);
 
 var firstCardOpened = false;
 var firstCard,secondCard;
@@ -21,16 +17,16 @@ for (var i = 0; i < array.length; i++) {
     count = count + 1;
     movesCount.textContent = count;
     if (starCount > 0) {    // change star counts
-      if(count===18)
+      if(count===26)
       {
          stars[starCount--].remove();
       }
-      else if(count==24)
+      else if(count==36)
       {
          stars[starCount--].remove();
       }
     }
-
+    
     this.className = "card open show";
     if(!firstCardOpened)
     {
@@ -88,6 +84,7 @@ function reset(){
   seconds = 0;
   winCount = 0;
   count = 0;
+  firstCardOpened = false;
   movesCount.innerHTML = 0;
   while(stars.length<3)
   {
@@ -95,6 +92,7 @@ function reset(){
     stars[stars.length-1].append(a);
   }
   starCount = stars.length - 1;
+
 }
 /*
  * Display the cards on the page
@@ -110,11 +108,13 @@ function shuffle(array) {
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+        temporaryValue = array[currentIndex].childNodes[1].className;
+        array[currentIndex].childNodes[1].className = array[randomIndex].childNodes[1].className;
+        array[randomIndex].childNodes[1].className = temporaryValue;
     }
-
+    /*for (var i = 0; i < array.length; i++) {  //to check shuffle
+      console.log(array[i].childNodes[1].className);
+    }*/
     return array;
 }
 
