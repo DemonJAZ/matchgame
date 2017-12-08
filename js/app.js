@@ -68,6 +68,7 @@ for (var i = 0; i < array.length; i++) {
 
              // Change model Content
              var List = document.getElementById('rating');
+             console.log(starCount);
              for (var i = 1; i <= starCount; i++) {
                  var inner = document.createElement('I');
                  inner.setAttribute('class','fa fa-star');
