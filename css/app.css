@@ -131,6 +131,11 @@ h1 {
     width: 80%;
 }
 
+#rating{
+  list-style: none;
+  display: inline;
+}
+
 /* The Close Button */
 .close {
     color: #aaaaaa;

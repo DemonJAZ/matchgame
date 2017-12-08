@@ -23,7 +23,7 @@ for (var i = 0; i < array.length; i++) {
       Starttime = true;
     }
 
-    if(this.className!="card match") // to stop click on already opened cards
+    if(this.className!="card match" & this.className!="card open show") // to stop click on already opened cards
     {
       count = count + 1;
       movesCount.textContent = Math.round(count/2);
@@ -67,19 +67,28 @@ for (var i = 0; i < array.length; i++) {
              }
 
              // Change model Content
-             setTimeout(function () {
+             var List = document.getElementById('rating');
+             for (var i = 1; i <= starCount; i++) {
+                 var inner = document.createElement('I');
+                 inner.setAttribute('class','fa fa-star');
+                 var li = document.createElement('LI');
+                 li.appendChild(inner);
+                 List.append(li);
+               }
+
                document.getElementById("performance").innerHTML="Performance: " + performance;
                document.getElementById("timeTaken").innerHTML= "Time Taken: " + timeTaken.toString();
-               modal.style.display = "block";
-             },500);
-             reset();
+               setTimeout(function () {
+                 modal.style.display = "block";
+                 reset();
+               },100);
           }
         }
-        else{  // reset th cards if not match
+        else{  // reset the cards if not match
           secondCard.className="card open show";
           setTimeout(function() {
             secondCard.className="card";
-            firstCard.className = "card";
+            firstCard.className="card";
             firstCardOpened = false;
             firstCard = 'undefined';
             secondCard = 'undefined';
