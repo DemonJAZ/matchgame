@@ -5,70 +5,88 @@ var array = document.getElementsByClassName("card");
 var stars = document.getElementsByClassName("fa fa-star");
 var starCount = stars.length-1;
 var movesCount = document.getElementById("moves");
+
 movesCount.innerHTML = 0;
 array = shuffle(array);
 
 var firstCardOpened = false;
+var Starttime = false;
 var firstCard,secondCard;
 var count = 0;
 var winCount = 0;
+
 for (var i = 0; i < array.length; i++) {
     array[i].addEventListener('click',function(){
-    count = count + 1;
-    movesCount.textContent = count;
-    if (starCount > 0) {    // change star counts
-      if(count===26)
-      {
-         stars[starCount--].remove();
-      }
-      else if(count==36)
-      {
-         stars[starCount--].remove();
-      }
-    }
-    
-    this.className = "card open show";
-    if(!firstCardOpened)
+    if(!Starttime) //start time on first click
     {
-      firstCard = this;
-      firstCardOpened = true;
-    }else{
-      secondCard = this;
-      if(firstCard.childNodes[1].className === secondCard.childNodes[1].className) // check if cards match
-      {
-        secondCard.className = "card match";
-        firstCard.className = "card match";
-        firstCardOpened = false;
-        firstCard = 'undefined';
-        secondCard = 'undefined';
-        winCount = winCount+2;
-        if(winCount === 16) // Win condition Game Over
-        {
-           var performance;
-           var timeTaken = seconds;
-           if(starCount === 3)
-           {
-             performance = "Exellent!!";
-           }else if (starCount === 2) {
-             performance = "Good!!";
-           }else{
-             performance = "you can do better";
-           }
+      InitTime();
+      Starttime = true;
+    }
 
-           alert("WON!! \n Performance =" + performance + "\n Time Taken:" + timeTaken + "secs");
-           reset();
+    if(this.className!="card match") // to stop click on already opened cards
+    {
+      count = count + 1;
+      movesCount.textContent = Math.round(count/2);
+      if (starCount > 0) {    // change star counts
+        if(count===26)
+        {
+           stars[starCount--].remove();
+        }
+        else if(count==36)
+        {
+           stars[starCount--].remove();
         }
       }
-      else{  // reset th cards if not match
-        secondCard.className="card open show";
-        setTimeout(function() {
-          secondCard.className="card";
-          firstCard.className = "card";
+      this.className = "card open show";
+      if(!firstCardOpened) // check if its first card of pair
+      {
+        firstCard = this;
+        firstCardOpened = true;
+      }else{
+       secondCard = this;
+       if(firstCard != secondCard){ // to disallow same clicks and matching
+        if(firstCard.childNodes[1].className === secondCard.childNodes[1].className) // check if cards match
+        {
+          secondCard.className = "card match";
+          firstCard.className = "card match";
           firstCardOpened = false;
           firstCard = 'undefined';
           secondCard = 'undefined';
-        },200);
+          winCount = winCount+2;
+          if(winCount === 16) // Win condition Game Over
+          {
+             var performance;
+             var timeTaken = seconds;
+             if(starCount === 3)
+             {
+               performance = "Exellent!!";
+             }else if (starCount === 2) {
+               performance = "Good!!";
+             }else{
+               performance = "you can do better";
+             }
+
+             // Change model Content
+             setTimeout(function () {
+               document.getElementById("performance").innerHTML="Performance: " + performance;
+               document.getElementById("timeTaken").innerHTML= "Time Taken: " + timeTaken.toString();
+               modal.style.display = "block";
+             },500);
+             reset();
+          }
+        }
+        else{  // reset th cards if not match
+          secondCard.className="card open show";
+          setTimeout(function() {
+            secondCard.className="card";
+            firstCard.className = "card";
+            firstCardOpened = false;
+            firstCard = 'undefined';
+            secondCard = 'undefined';
+          },200);
+        }
       }
+     }
     }
   });
 }
@@ -77,21 +95,30 @@ for (var i = 0; i < array.length; i++) {
 
 // reset grid
 function reset(){
+  //reshuffle
   array = shuffle(array);
   for (var i = 0; i < array.length; i++) {
     array[i].className = "card";
   }
+  //reset timer
   seconds = 0;
+  Starttime = false;
+  clearInterval(timer);
+  sec.innerHTML = seconds;
+  //reset game logic variables
   winCount = 0;
   count = 0;
   firstCardOpened = false;
   movesCount.innerHTML = 0;
+
+  //reset stars
   while(stars.length<3)
   {
     var a = stars[stars.length-1].cloneNode(true);
     stars[stars.length-1].append(a);
   }
   starCount = stars.length - 1;
+
 
 }
 /*
@@ -120,11 +147,15 @@ function shuffle(array) {
 
 // Timer
 var seconds = 0;
-setInterval(function(){
-  var sec = document.getElementById('seconds');
-  sec.innerHTML = seconds;
-  seconds = seconds + 1;
-},1000)
+var timer;
+var sec;
+function InitTime() {
+  timer = setInterval(function(){
+    sec = document.getElementById('seconds');
+    sec.innerHTML = seconds;
+    seconds = seconds + 1;
+  },1000)
+}
 
 
 /*
@@ -137,3 +168,24 @@ setInterval(function(){
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+ //Modal Code
+ var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
