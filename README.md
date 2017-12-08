@@ -1,20 +1,18 @@
 # Memory Game Project
 
-## Table of Contents
+This is a game in which you have to find all the pairs as fast as possible.
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+## How to Run
+Open **index.html** file to run the application in any browser.
 
-## Instructions
+## How to play
+Left Click on the black tiles to open a card, choose the next card, if they match both will turn green else cards will close again
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+## Requirements
 
-To get started, open `js/app.js` and start building out the app's functionality
+Web browser like Mozzilla Firefox, google chrome or safari which supports javascript.
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
-
-## Contributing
-
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+## Technology used
+* HTML
+* JavaScript
+* CSS
